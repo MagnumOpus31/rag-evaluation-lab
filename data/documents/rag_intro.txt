@@ -1,0 +1,5 @@
+RAG Evaluation Lab
+
+Retrieval-Augmented Generation, or RAG, combines information retrieval with language generation. A RAG system first retrieves relevant information from a document collection and then provides that information as context to a language model.
+
+An evaluation harness is used to systematically measure the quality of a RAG system. It can evaluate retrieval quality, context relevance, answer correctness, faithfulness, latency, and other metrics.
