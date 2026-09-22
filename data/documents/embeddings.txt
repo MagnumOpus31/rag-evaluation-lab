@@ -1,0 +1,1 @@
+Embeddings convert text into numerical vectors that capture semantic meaning. Similar pieces of text tend to have vectors that are close to each other in vector space. Embedding models are commonly used for semantic search, recommendation systems, clustering, and retrieval-augmented generation.
