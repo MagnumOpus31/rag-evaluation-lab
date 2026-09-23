@@ -30,7 +30,8 @@ class Retriever:
 
             results.append({
                 "text": self.chunks[index],
-                "score": float(score)
+                "score": float(score),
+                "index": int(index)
             })
 
         return results

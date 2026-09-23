@@ -5,7 +5,7 @@ from src.generator import generate_answer
 
 
 class RAGPipeline:
-    def __init__(self, chunk_size=50, overlap=10):
+    def __init__(self, chunk_size=50, overlap=10, score_threshold=0.4):
         documents = load_documents()
 
         self.chunks = [
@@ -19,12 +19,20 @@ class RAGPipeline:
         ]
 
         self.retriever = Retriever(self.chunks)
+        self.score_threshold = score_threshold
 
     def answer(self, query, top_k=3):
         retrieved = self.retriever.retrieve(
             query,
             top_k=top_k
         )
+
+        if not retrieved or retrieved[0]["score"] < self.score_threshold:
+            return {
+                "query": query,
+                "answer": "I don't have enough information in the provided context.",
+                "retrieved": retrieved
+            }
 
         context = "\n\n".join(
             result["text"]

@@ -27,9 +27,11 @@ def main():
             chunk_sources.append(document["source"])
 
     retriever = Retriever(chunks)
+    score_threshold = 0.4
 
     recall_scores = []
     mrr_scores = []
+    ood_results = []
 
     for item in questions:
         results = retriever.retrieve(
@@ -37,13 +39,21 @@ def main():
             top_k=3
         )
 
+        in_domain = item.get("in_domain", True)
+
+        if not in_domain:
+            top_score = results[0]["score"] if results else 0.0
+            rejected = top_score < score_threshold
+            ood_results.append(rejected)
+            print(
+                f"{item['question']} | "
+                f"Rejected={rejected} | "
+                f"TopScore={top_score:.3f}"
+            )
+            continue
+
         retrieved_sources = [
-            chunk_sources[
-                next(
-                    i for i, chunk in enumerate(chunks)
-                    if chunk == result["text"]
-                )
-            ]
+            chunk_sources[result["index"]]
             for result in results
         ]
 
@@ -63,13 +73,14 @@ def main():
 
         print(
             f"{item['question']} | "
-            f"Recall@3={recall} | "
-            f"MRR={mrr:.3f}"
+            f"Recall@3={recall} | MRR={mrr:.3f}"
         )
 
     print()
-    print("Average Recall@3:", sum(recall_scores) / len(recall_scores))
-    print("Average MRR:", sum(mrr_scores) / len(mrr_scores))
+    print("In-domain Average Recall@3:", sum(recall_scores) / len(recall_scores))
+    print("In-domain Average MRR:", sum(mrr_scores) / len(mrr_scores))
+    print("OOD Rejection Rate:", sum(ood_results) / len(ood_results))
+
 
 
 if __name__ == "__main__":

@@ -38,5 +38,41 @@
     "question": "What is the role of overlap in chunking?",
     "answer": "Overlap preserves context between neighboring chunks.",
     "source": "chunking.txt"
+  },
+  {
+    "question": "How does photosynthesis work?",
+    "answer": null,
+    "source": null,
+    "in_domain": false
+  },
+  {
+    "question": "What causes earthquakes?",
+    "answer": null,
+    "source": null,
+    "in_domain": false
+  },
+  {
+    "question": "How does the human digestive system work?",
+    "answer": null,
+    "source": null,
+    "in_domain": false
+  },
+  {
+    "question": "What is the offside rule in football?",
+    "answer": "The offside rule prevents an attacking player from gaining an unfair advantage by being too far forward when the ball is played to them.",
+    "source": "football_rules.txt",
+    "in_domain": true
+  },
+  {
+    "question": "When is a penalty kick awarded?",
+    "answer": "A penalty kick is awarded when a player commits a direct free kick offence inside their own penalty area.",
+    "source": "football_rules.txt",
+    "in_domain": true
+  },
+  {
+    "question": "What is a red card in football?",
+    "answer": "A red card sends a player off and means they cannot continue playing in that match.",
+    "source": "football_rules.txt",
+    "in_domain": true
   }
 ]
