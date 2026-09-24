@@ -10,3 +10,11 @@ def mean_reciprocal_rank(retrieved_sources, expected_source):
             return 1 / rank
 
     return 0.0
+
+
+def evidence_recall_at_k(retrieved_chunks, expected_evidence, k):
+    top_k_chunks = retrieved_chunks[:k]
+
+    return int(
+        any(expected_evidence in chunk for chunk in top_k_chunks)
+    )

@@ -1,1 +1,3 @@
 Retrieval is the process of finding relevant information from a document collection for a given user query. In a RAG system, the retriever searches the indexed document chunks and returns the most relevant results. Top-k retrieval controls how many results are returned. Retrieval quality can be measured using metrics such as Recall@K, Precision@K, and Mean Reciprocal Rank (MRR).
+
+Recall@K measures whether the relevant information was retrieved within the top K results.
