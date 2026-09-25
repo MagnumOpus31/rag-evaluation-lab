@@ -46,7 +46,7 @@
     "question": "What is the role of overlap in chunking?",
     "answer": "Overlap preserves context between neighboring chunks.",
     "source": "chunking.txt",
-    "evidence": "Overlap preserves context between neighboring chunks."
+    "evidence": "Overlap preserves context between neighboring chunks"
   },
   {
     "question": "How does photosynthesis work?",

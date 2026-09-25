@@ -1,4 +1,7 @@
+
 import json
+import time
+from pathlib import Path
 
 from src.rag_pipeline import RAGPipeline
 from src.embeddings import create_embedding_model
@@ -13,9 +16,11 @@ def main():
     model = create_embedding_model()
 
     top_k_values = [1, 3, 5]
+    experiment_results=[]
 
     for top_k in top_k_values:
         scores = []
+        latencies = []
 
         print()
         print("=" * 60)
@@ -26,10 +31,15 @@ def main():
             if not item.get("in_domain", True):
                 continue
 
+            start_time = time.perf_counter()
+
             result = pipeline.answer(
                 item["question"],
                 top_k=top_k
             )
+
+            latency = time.perf_counter() - start_time
+            latencies.append(latency)
 
             score = semantic_similarity(
                 model,
@@ -41,8 +51,16 @@ def main():
 
             print(f"\nQuestion: {item['question']}")
             print(f"Semantic Similarity: {score:.3f}")
+            print(f"Latency: {latency:.3f} seconds")
 
         average_score = sum(scores) / len(scores)
+        average_latency = sum(latencies) / len(latencies)
+
+        experiment_results.append({
+            "top_k": top_k,
+            "average_answer_similarity": average_score,
+            "average_latency_seconds": average_latency
+        })
 
         print()
         print(
@@ -50,6 +68,18 @@ def main():
             f"(top_k={top_k}): {average_score:.3f}"
         )
 
+        print(
+            f"Average Latency "
+            f"(top_k={top_k}): {average_latency:.3f} seconds"
+        )
+
+    output_path = Path("data/eval/answer_results.json")
+
+    with open(output_path, "w", encoding="utf-8") as file:
+        json.dump(experiment_results, file, indent=4)
+
+    print()
+    print(f"Results saved to {output_path}")
 
 if __name__ == "__main__":
     main()

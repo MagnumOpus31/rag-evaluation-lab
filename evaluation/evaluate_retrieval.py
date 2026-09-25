@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 
 from src.ingestion import load_documents
 from src.chunking import chunk_text
@@ -34,11 +35,12 @@ def main():
     score_threshold = 0.4
 
     top_k_values = [1, 3, 5]
+    experiment_results = []
 
     for top_k in top_k_values:
         recall_scores = []
         mrr_scores = []
-        evidence_recall_scores=[]
+        evidence_recall_scores = []
 
         print()
         print("=" * 60)
@@ -87,6 +89,9 @@ def main():
             recall_scores.append(recall)
             mrr_scores.append(mrr)
 
+            if evidence_recall is not None:
+                evidence_recall_scores.append(evidence_recall)
+
             output = (
                 f"{item['question']} | "
                 f"Recall@{top_k}={recall} | "
@@ -111,6 +116,23 @@ def main():
             f"Average MRR: "
             f"{sum(mrr_scores) / len(mrr_scores):.3f}"
         )
+
+        if evidence_recall_scores:
+            print(
+                f"Average Evidence Recall@{top_k}: "
+                f"{sum(evidence_recall_scores) / len(evidence_recall_scores):.3f}"
+            )
+
+        experiment_results.append({
+            "top_k": top_k,
+            "average_recall": sum(recall_scores) / len(recall_scores),
+            "average_mrr": sum(mrr_scores) / len(mrr_scores),
+            "average_evidence_recall": (
+                sum(evidence_recall_scores) / len(evidence_recall_scores)
+                if evidence_recall_scores
+                else None
+    )
+})
 
     print()
     print("=" * 60)
@@ -144,6 +166,14 @@ def main():
         "OOD Rejection Rate:",
         f"{sum(ood_results) / len(ood_results):.3f}"
     )
+
+    output_path = Path("data/eval/retrieval_results.json")
+
+    with open(output_path, "w", encoding="utf-8") as file:
+        json.dump(experiment_results, file, indent=4)
+
+    print()
+    print(f"Results saved to {output_path}")
 
 
 if __name__ == "__main__":
