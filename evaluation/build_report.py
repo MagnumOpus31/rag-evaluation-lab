@@ -38,6 +38,15 @@ def main():
                     "average_answer_similarity": answer[
                         "average_answer_similarity"
                     ],
+                    "average_grounding_score": answer[
+                        "average_grounding_score"
+                    ],
+                    "average_retrieval_latency_seconds": answer[
+                        "average_retrieval_latency_seconds"
+                    ],
+                    "average_generation_latency_seconds": answer[
+                        "average_generation_latency_seconds"
+                    ],
                     "average_latency_seconds": answer[
                         "average_latency_seconds"
                     ]
@@ -61,7 +70,10 @@ def main():
         f"{'MRR':<12}"
         f"{'Evidence Recall':<18}"
         f"{'Answer Similarity':<20}"
-        f"{'Latency (s)':<12}"
+        f"{'Grounding':<12}"
+        f"{'Retrieval (s)':<16}"
+        f"{'Generation (s)':<16}"
+        f"{'Total Latency (s)':<18}"
     )
 
     print("-" * 90)
@@ -73,7 +85,10 @@ def main():
             f"{result['average_mrr']:<12.3f}"
             f"{result['average_evidence_recall']:<18.3f}"
             f"{result['average_answer_similarity']:<20.3f}"
-            f"{result['average_latency_seconds']:<12.3f}"
+            f"{result['average_grounding_score']:<12.3f}"
+            f"{result['average_retrieval_latency_seconds']:<16.3f}"
+            f"{result['average_generation_latency_seconds']:<16.3f}"
+            f"{result['average_latency_seconds']:<18.3f}"
         )
         final_report = {
         "configuration": config,

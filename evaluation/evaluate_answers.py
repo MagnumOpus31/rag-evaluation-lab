@@ -6,6 +6,10 @@ from pathlib import Path
 from src.rag_pipeline import RAGPipeline
 from src.embeddings import create_embedding_model
 from evaluation.answer_metrics import semantic_similarity
+from src.rag_pipeline import RAGPipeline
+from src.embeddings import create_embedding_model
+from evaluation.answer_metrics import semantic_similarity
+from evaluation.grounding_metrics import context_support_score
 
 
 def main():
@@ -20,7 +24,11 @@ def main():
 
     for top_k in top_k_values:
         scores = []
+        grounding_scores = []
+        retrieval_latencies = []
+        generation_latencies = []
         latencies = []
+
 
         print()
         print("=" * 60)
@@ -31,15 +39,20 @@ def main():
             if not item.get("in_domain", True):
                 continue
 
-            start_time = time.perf_counter()
-
             result = pipeline.answer(
                 item["question"],
                 top_k=top_k
             )
 
-            latency = time.perf_counter() - start_time
+            latency = result["latency"]["total_seconds"]
             latencies.append(latency)
+            retrieval_latencies.append(
+                result["latency"]["retrieval_seconds"]
+            )
+
+            generation_latencies.append(
+                result["latency"]["generation_seconds"]
+            )
 
             score = semantic_similarity(
                 model,
@@ -47,18 +60,42 @@ def main():
                 item["answer"]
             )
 
+            context = "\n\n".join(
+                retrieved["text"]
+                for retrieved in result["retrieved"]
+            )
+
+            grounding_score = context_support_score(
+                model,
+                result["answer"],
+                context
+            )
+
             scores.append(score)
+            grounding_scores.append(grounding_score)
 
             print(f"\nQuestion: {item['question']}")
             print(f"Semantic Similarity: {score:.3f}")
+            print(f"Grounding Score: {grounding_score:.3f}")
             print(f"Latency: {latency:.3f} seconds")
 
-        average_score = sum(scores) / len(scores)
-        average_latency = sum(latencies) / len(latencies)
+            average_score = sum(scores) / len(scores)
+            average_grounding = sum(grounding_scores) / len(grounding_scores)
+            average_latency = sum(latencies) / len(latencies)
+            average_retrieval_latency = (
+                sum(retrieval_latencies) / len(retrieval_latencies)
+            )
+
+            average_generation_latency = (
+                sum(generation_latencies) / len(generation_latencies)
+)
 
         experiment_results.append({
             "top_k": top_k,
             "average_answer_similarity": average_score,
+            "average_grounding_score": average_grounding,
+            "average_retrieval_latency_seconds": average_retrieval_latency,
+            "average_generation_latency_seconds": average_generation_latency,
             "average_latency_seconds": average_latency
         })
 
@@ -66,6 +103,20 @@ def main():
         print(
             f"Average Answer Semantic Similarity "
             f"(top_k={top_k}): {average_score:.3f}"
+        )
+
+        print(
+            f"Average Grounding Score "
+            f"(top_k={top_k}): {average_grounding:.3f}"
+        )
+        print(
+            f"Average Retrieval Latency "
+            f"(top_k={top_k}): {average_retrieval_latency:.3f} seconds"
+        )
+
+        print(
+            f"Average Generation Latency "
+            f"(top_k={top_k}): {average_generation_latency:.3f} seconds"
         )
 
         print(
