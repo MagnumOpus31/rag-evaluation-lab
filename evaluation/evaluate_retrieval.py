@@ -32,7 +32,8 @@ def main():
             chunk_sources.append(document["source"])
 
     retriever = Retriever(chunks)
-    score_threshold = 0.4
+
+    score_thresholds = [0.2, 0.3, 0.4, 0.5]
 
     top_k_values = [1, 3, 5]
     experiment_results = []
@@ -106,71 +107,151 @@ def main():
 
             print(output)
 
+        average_recall = sum(recall_scores) / len(recall_scores)
+        average_mrr = sum(mrr_scores) / len(mrr_scores)
+
         print()
         print(
             f"Average Recall@{top_k}: "
-            f"{sum(recall_scores) / len(recall_scores):.3f}"
+            f"{average_recall:.3f}"
         )
 
         print(
             f"Average MRR: "
-            f"{sum(mrr_scores) / len(mrr_scores):.3f}"
+            f"{average_mrr:.3f}"
         )
 
+        average_evidence_recall = None
+
         if evidence_recall_scores:
+            average_evidence_recall = (
+                sum(evidence_recall_scores)
+                / len(evidence_recall_scores)
+            )
+
             print(
                 f"Average Evidence Recall@{top_k}: "
-                f"{sum(evidence_recall_scores) / len(evidence_recall_scores):.3f}"
+                f"{average_evidence_recall:.3f}"
             )
 
         experiment_results.append({
             "top_k": top_k,
-            "average_recall": sum(recall_scores) / len(recall_scores),
-            "average_mrr": sum(mrr_scores) / len(mrr_scores),
-            "average_evidence_recall": (
-                sum(evidence_recall_scores) / len(evidence_recall_scores)
-                if evidence_recall_scores
-                else None
-    )
-})
+            "average_recall": average_recall,
+            "average_mrr": average_mrr,
+            "average_evidence_recall": average_evidence_recall
+        })
 
     print()
     print("=" * 60)
-    print("OOD Evaluation")
+    print("Threshold Evaluation")
     print("=" * 60)
 
-    ood_results = []
+    threshold_results = []
 
-    for item in questions:
-        if item.get("in_domain", True):
-            continue
+    for score_threshold in score_thresholds:
 
-        results = retriever.retrieve(
-            item["question"],
-            top_k=5
+        # OOD evaluation
+        rejected_ood = 0
+        total_ood = 0
+
+        print()
+        print(
+            f"Evaluating threshold={score_threshold}"
         )
 
-        top_score = results[0]["score"] if results else 0.0
-        rejected = top_score < score_threshold
+        for item in questions:
+            if item.get("in_domain", True):
+                continue
 
-        ood_results.append(rejected)
+            results = retriever.retrieve(
+                item["question"],
+                top_k=5
+            )
+
+            top_score = (
+                results[0]["score"]
+                if results
+                else 0.0
+            )
+
+            rejected = top_score < score_threshold
+
+            total_ood += 1
+
+            if rejected:
+                rejected_ood += 1
+
+            print(
+                f"OOD: {item['question']} | "
+                f"Rejected={rejected} | "
+                f"TopScore={top_score:.3f}"
+            )
+
+        ood_rejection_rate = (
+            rejected_ood / total_ood
+            if total_ood
+            else 0.0
+        )
+
+        # In-domain evaluation
+        accepted_in_domain = 0
+        total_in_domain = 0
+
+        for item in questions:
+            if not item.get("in_domain", True):
+                continue
+
+            results = retriever.retrieve(
+                item["question"],
+                top_k=1
+            )
+
+            top_score = (
+                results[0]["score"]
+                if results
+                else 0.0
+            )
+
+            accepted = top_score >= score_threshold
+
+            total_in_domain += 1
+
+            if accepted:
+                accepted_in_domain += 1
+
+        in_domain_acceptance_rate = (
+            accepted_in_domain / total_in_domain
+            if total_in_domain
+            else 0.0
+        )
+
+        threshold_results.append({
+            "score_threshold": score_threshold,
+            "ood_rejection_rate": ood_rejection_rate,
+            "in_domain_acceptance_rate": in_domain_acceptance_rate
+        })
 
         print(
-            f"{item['question']} | "
-            f"Rejected={rejected} | "
-            f"TopScore={top_score:.3f}"
+            f"OOD Rejection Rate: "
+            f"{ood_rejection_rate:.3f}"
         )
 
-    print()
-    print(
-        "OOD Rejection Rate:",
-        f"{sum(ood_results) / len(ood_results):.3f}"
-    )
+        print(
+            f"In-Domain Acceptance Rate: "
+            f"{in_domain_acceptance_rate:.3f}"
+        )
 
     output_path = Path("data/eval/retrieval_results.json")
 
     with open(output_path, "w", encoding="utf-8") as file:
-        json.dump(experiment_results, file, indent=4)
+        json.dump(
+            {
+                "retrieval_experiments": experiment_results,
+                "threshold_evaluation": threshold_results
+            },
+            file,
+            indent=4
+        )
 
     print()
     print(f"Results saved to {output_path}")

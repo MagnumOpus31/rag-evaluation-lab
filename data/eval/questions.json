@@ -66,6 +66,25 @@
     "source": null,
     "in_domain": false
   },
+
+  {
+    "question": "How does a computer operating system manage memory?",
+    "answer": null,
+    "source": null,
+    "in_domain": false
+},
+{
+    "question": "What is the process of photosynthesis in plants?",
+    "answer": null,
+    "source": null,
+    "in_domain": false
+},
+{
+    "question": "How are earthquakes measured?",
+    "answer": null,
+    "source": null,
+    "in_domain": false
+},
   {
     "question": "What is the offside rule in football?",
     "answer": "The offside rule prevents an attacking player from gaining an unfair advantage by being too far forward when the ball is played to them.",

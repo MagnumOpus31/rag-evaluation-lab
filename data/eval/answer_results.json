@@ -1,26 +1,26 @@
 [
     {
         "top_k": 1,
-        "average_answer_similarity": 0.6735941076820547,
-        "average_grounding_score": 0.6155086078427054,
-        "average_retrieval_latency_seconds": 0.0350653272735971,
-        "average_generation_latency_seconds": 8.92427582727396,
-        "average_latency_seconds": 8.959380372727702
+        "average_answer_similarity": 0.7364261400970545,
+        "average_grounding_score": 0.7037278738888827,
+        "average_retrieval_latency_seconds": 0.03353027272731362,
+        "average_generation_latency_seconds": 7.643294427270038,
+        "average_latency_seconds": 7.676834409092077
     },
     {
         "top_k": 3,
-        "average_answer_similarity": 0.7619193724610589,
-        "average_grounding_score": 0.7077235003763979,
-        "average_retrieval_latency_seconds": 0.017609954547052355,
-        "average_generation_latency_seconds": 10.269207209088068,
-        "average_latency_seconds": 10.286956363632767
+        "average_answer_similarity": 0.7523817379366268,
+        "average_grounding_score": 0.7064452462575652,
+        "average_retrieval_latency_seconds": 0.01701051818302155,
+        "average_generation_latency_seconds": 9.072938572726509,
+        "average_latency_seconds": 9.090000781821965
     },
     {
         "top_k": 5,
-        "average_answer_similarity": 0.8187691460956227,
-        "average_grounding_score": 0.7071281779896129,
-        "average_retrieval_latency_seconds": 0.01668527272836813,
-        "average_generation_latency_seconds": 10.831572790907972,
-        "average_latency_seconds": 10.848265554540292
+        "average_answer_similarity": 0.8160449943759225,
+        "average_grounding_score": 0.7139642672105269,
+        "average_retrieval_latency_seconds": 0.024852318183878775,
+        "average_generation_latency_seconds": 9.579369981819498,
+        "average_latency_seconds": 9.604231018180144
     }
 ]
