@@ -3,9 +3,13 @@ from src.vector_store import create_vector_store, search_vector_store
 
 
 class Retriever:
-    def __init__(self, chunks):
+    def __init__(self, chunks, embedding_model=None):
         self.chunks = chunks
-        self.model = create_embedding_model()
+        self.model = (
+        embedding_model
+        if embedding_model is not None
+        else create_embedding_model()
+    )
 
         embeddings = create_embeddings(self.model, chunks)
         self.index = create_vector_store(embeddings)

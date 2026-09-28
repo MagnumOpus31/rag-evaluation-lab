@@ -15,6 +15,9 @@ def main():
     answer_results = load_json(
         "data/eval/answer_results.json"
     )
+    embedding_results = load_json(
+        "data/eval/embedding_results.json"
+    )
 
     chunking_results = load_json(
         "data/eval/chunking_results.json"
@@ -182,11 +185,40 @@ def main():
             f"{result['average_latency_seconds']:<18.3f}"
         )
 
+    print()
+    print("=" * 90)
+    print("Embedding Model Experiment")
+    print("=" * 90)
+
+    print(
+        f"{'Embedding Model':<28}"
+        f"{'Evidence Recall':<18}"
+        f"{'Answer Similarity':<20}"
+        f"{'Grounding':<14}"
+        f"{'Retrieval (s)':<16}"
+        f"{'Generation (s)':<18}"
+        f"{'Total Latency (s)':<18}"
+    )
+
+    print("-" * 90)
+
+    for result in embedding_results:
+        print(
+            f"{result['embedding_model']:<28}"
+            f"{result['average_evidence_recall']:<18.3f}"
+            f"{result['average_answer_similarity']:<20.3f}"
+            f"{result['average_grounding_score']:<14.3f}"
+            f"{result['average_retrieval_latency_seconds']:<16.3f}"
+            f"{result['average_generation_latency_seconds']:<18.3f}"
+            f"{result['average_latency_seconds']:<18.3f}"
+        )
+
     final_report = {
         "configuration": config,
         "results": report,
         "threshold_evaluation": threshold_results,
-        "chunking_experiment": chunking_results
+        "chunking_experiment": chunking_results,
+        "embedding_experiment": embedding_results
     }
 
     output_path = Path(

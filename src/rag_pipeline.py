@@ -6,7 +6,13 @@ from src.generator import generate_answer
 
 
 class RAGPipeline:
-    def __init__(self, chunk_size=50, overlap=10, score_threshold=0.4):
+    def __init__(
+        self,
+        chunk_size=50,
+        overlap=10,
+        score_threshold=0.4,
+        embedding_model=None
+        ):
         documents = load_documents()
 
         self.chunks = [
@@ -19,7 +25,10 @@ class RAGPipeline:
             )
         ]
 
-        self.retriever = Retriever(self.chunks)
+        self.retriever = Retriever(
+        self.chunks,
+        embedding_model=embedding_model
+        )
         self.score_threshold = score_threshold
 
     def answer(self, query, top_k=3):
