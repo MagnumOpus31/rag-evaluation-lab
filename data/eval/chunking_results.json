@@ -1,0 +1,35 @@
+[
+    {
+        "chunk_size": 30,
+        "overlap": 10,
+        "top_k": 3,
+        "average_evidence_recall": 0.7272727272727273,
+        "average_answer_similarity": 0.8039025962352753,
+        "average_grounding_score": 0.8422697674144398,
+        "average_retrieval_latency_seconds": 0.02106871818382801,
+        "average_generation_latency_seconds": 11.519089854541976,
+        "average_latency_seconds": 11.540173945459008
+    },
+    {
+        "chunk_size": 50,
+        "overlap": 10,
+        "top_k": 3,
+        "average_evidence_recall": 0.9090909090909091,
+        "average_answer_similarity": 0.7573292160576041,
+        "average_grounding_score": 0.7098119821060788,
+        "average_retrieval_latency_seconds": 0.014014809088125317,
+        "average_generation_latency_seconds": 10.36792539999905,
+        "average_latency_seconds": 10.381947818177816
+    },
+    {
+        "chunk_size": 100,
+        "overlap": 10,
+        "top_k": 3,
+        "average_evidence_recall": 1.0,
+        "average_answer_similarity": 0.8434850654818795,
+        "average_grounding_score": 0.6565247611566023,
+        "average_retrieval_latency_seconds": 0.013868063635362143,
+        "average_generation_latency_seconds": 11.514600618181497,
+        "average_latency_seconds": 11.528476781815037
+    }
+]
