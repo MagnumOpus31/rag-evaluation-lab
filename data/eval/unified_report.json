@@ -127,5 +127,49 @@
             "average_generation_latency_seconds": 6.714408018187069,
             "average_latency_seconds": 6.7732286909013055
         }
+    ],
+    "top_k_experiment": [
+        {
+            "top_k": 1,
+            "embedding_model": "all-MiniLM-L6-v2",
+            "evaluation_model": "all-MiniLM-L6-v2",
+            "chunk_size": 50,
+            "overlap": 10,
+            "score_threshold": 0.3,
+            "average_evidence_recall": 0.8181818181818182,
+            "average_answer_similarity": 0.7364261400970545,
+            "average_grounding_score": 0.7037278738888827,
+            "average_retrieval_latency_seconds": 0.015732390909430582,
+            "average_generation_latency_seconds": 8.816561945454437,
+            "average_latency_seconds": 8.832300909091083
+        },
+        {
+            "top_k": 3,
+            "embedding_model": "all-MiniLM-L6-v2",
+            "evaluation_model": "all-MiniLM-L6-v2",
+            "chunk_size": 50,
+            "overlap": 10,
+            "score_threshold": 0.3,
+            "average_evidence_recall": 0.9090909090909091,
+            "average_answer_similarity": 0.7523817379366268,
+            "average_grounding_score": 0.7064452462575652,
+            "average_retrieval_latency_seconds": 0.016982327272919727,
+            "average_generation_latency_seconds": 9.50099610909092,
+            "average_latency_seconds": 9.518021136363215
+        },
+        {
+            "top_k": 5,
+            "embedding_model": "all-MiniLM-L6-v2",
+            "evaluation_model": "all-MiniLM-L6-v2",
+            "chunk_size": 50,
+            "overlap": 10,
+            "score_threshold": 0.3,
+            "average_evidence_recall": 1.0,
+            "average_answer_similarity": 0.8160449943759225,
+            "average_grounding_score": 0.7139642672105269,
+            "average_retrieval_latency_seconds": 0.014140899999719377,
+            "average_generation_latency_seconds": 10.923412554545477,
+            "average_latency_seconds": 10.937560799999945
+        }
     ]
 }
