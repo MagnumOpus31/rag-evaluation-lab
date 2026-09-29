@@ -5,6 +5,7 @@ from src.embeddings import create_embedding_model
 from evaluation.answer_metrics import semantic_similarity
 from evaluation.grounding_metrics import context_support_score
 from evaluation.retrieval_metrics import evidence_recall_at_k
+from evaluation.answer_correctness import judge_answer
 
 
 def main():
@@ -36,6 +37,7 @@ def main():
         evidence_scores = []
         answer_scores = []
         grounding_scores = []
+        correctness_scores = []
 
         retrieval_latencies = []
         generation_latencies = []
@@ -78,9 +80,20 @@ def main():
                 context
             )
 
+            judgment = judge_answer(
+                item["question"],
+                result["answer"],
+                item["answer"]
+            )
+
+            correctness = int(
+                judgment["correct"]
+            )
+
             evidence_scores.append(evidence)
             answer_scores.append(answer_score)
             grounding_scores.append(grounding)
+            correctness_scores.append(correctness)
 
             retrieval_latencies.append(
                 result["latency"]["retrieval_seconds"]
@@ -109,6 +122,10 @@ def main():
             "average_grounding_score": (
                 sum(grounding_scores)
                 / len(grounding_scores)
+            ),
+            "answer_correctness": (
+                sum(correctness_scores)
+                / len(correctness_scores)
             ),
             "average_retrieval_latency_seconds": (
                 sum(retrieval_latencies)
@@ -139,6 +156,11 @@ def main():
         print(
             f"Grounding Score: "
             f"{result_data['average_grounding_score']:.3f}"
+        )
+
+        print(
+            f"Answer Correctness: "
+            f"{result_data['answer_correctness']:.3f}"
         )
 
         print(

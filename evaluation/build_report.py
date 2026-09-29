@@ -163,21 +163,22 @@ def main():
         )
 
     print()
-    print("=" * 90)
+    print("=" * 100)
     print("Chunk Size Experiment")
-    print("=" * 90)
+    print("=" * 100)
 
     print(
         f"{'Chunk Size':<14}"
         f"{'Evidence Recall':<18}"
         f"{'Answer Similarity':<20}"
         f"{'Grounding':<14}"
+        f"{'Correctness':<14}"
         f"{'Retrieval (s)':<16}"
         f"{'Generation (s)':<18}"
         f"{'Total Latency (s)':<18}"
     )
 
-    print("-" * 90)
+    print("-" * 100)
 
     for result in chunking_results:
         print(
@@ -185,6 +186,7 @@ def main():
             f"{result['average_evidence_recall']:<18.3f}"
             f"{result['average_answer_similarity']:<20.3f}"
             f"{result['average_grounding_score']:<14.3f}"
+            f"{result['answer_correctness']:<14.3f}"
             f"{result['average_retrieval_latency_seconds']:<16.3f}"
             f"{result['average_generation_latency_seconds']:<18.3f}"
             f"{result['average_latency_seconds']:<18.3f}"

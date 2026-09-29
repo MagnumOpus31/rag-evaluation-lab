@@ -1,0 +1,87 @@
+{
+    "summary": {
+        "total_questions": 11,
+        "correct_answers": 10,
+        "incorrect_answers": 1,
+        "answer_correctness": 0.9090909090909091
+    },
+    "results": [
+        {
+            "question": "What are embeddings?",
+            "expected_answer": "Embeddings convert text into numerical vectors that capture semantic meaning.",
+            "generated_answer": "Embeddings convert text into numerical vectors that capture semantic meaning. Similar pieces of text tend to have vectors that are close to each other in vector space. Embedding models are commonly used for semantic search, recommendation systems, clustering, and retrieval-augmented generation.",
+            "correct": true,
+            "reason": "The generated answer accurately describes what embeddings are and their primary use cases."
+        },
+        {
+            "question": "What is a vector database?",
+            "expected_answer": "A vector database stores and searches numerical embeddings efficiently using similarity search.",
+            "generated_answer": "Vector databases are designed to store and search numerical embeddings efficiently. They support similarity search, where a query vector is compared with stored vectors to find the most relevant items. Vector databases are commonly used in semantic search and retrieval-augmented generation systems.",
+            "correct": true,
+            "reason": "The generated answer correctly describes what a vector database is and its primary function of storing and searching numerical embeddings efficiently using similarity search."
+        },
+        {
+            "question": "Why is chunking used in RAG?",
+            "expected_answer": "Chunking splits large documents into smaller pieces before creating embeddings, which can improve retrieval precision.",
+            "generated_answer": "Chunking is used in RAG (Retrieval-Augmented Generation) to improve retrieval precision by splitting large documents into smaller, more focused pieces. Smaller chunks can better capture the context and details within the document, which is crucial for accurate and relevant information retrieval. The parameters such as chunk size and overlap are important for maintaining context between chunks and ensuring that the system can evaluate various metrics like retrieval quality, context relevance, answer correctness, faithfulness, latency, and more.",
+            "correct": true,
+            "reason": "The generated answer correctly explains why chunking is used in RAG and provides additional context about its benefits."
+        },
+        {
+            "question": "What is retrieval in a RAG system?",
+            "expected_answer": "Retrieval finds relevant information from a document collection for a given user query.",
+            "generated_answer": "In a RAG (Retrieval-Augmented Generation) system, retrieval is the process of finding relevant information from a document collection for a given user query. In a RAG system, the retriever searches the indexed document chunks and returns the most relevant results. Top-k retrieval controls how many results are returned.",
+            "correct": true,
+            "reason": "The generated answer correctly defines retrieval in the context of a RAG system and includes additional relevant details."
+        },
+        {
+            "question": "What does Recall@K measure?",
+            "expected_answer": "Recall@K measures whether the relevant information was retrieved within the top K results.",
+            "generated_answer": "Recall@K measures whether the relevant information was retrieved within the top K results.",
+            "correct": true,
+            "reason": "The generated answer accurately describes what Recall@K measures."
+        },
+        {
+            "question": "What is the purpose of a RAG evaluation dataset?",
+            "expected_answer": "A fixed evaluation dataset allows different RAG configurations to be compared consistently.",
+            "generated_answer": "I don't have enough information in the provided context.",
+            "correct": false,
+            "reason": "The generated answer does not correctly address the question about the purpose of a RAG evaluation dataset. It does not mention RAG or provide information about the purpose of a dataset."
+        },
+        {
+            "question": "What is faithfulness in RAG evaluation?",
+            "expected_answer": "Faithfulness evaluates whether the generated answer is supported by the retrieved context.",
+            "generated_answer": "Faithfulness in RAG evaluation evaluates whether the generated answer is supported by the retrieved context. A faithful answer should not introduce information that is not supported by the retrieved evidence.",
+            "correct": true,
+            "reason": "The generated answer accurately describes faithfulness in RAG evaluation as supporting the retrieved context and not introducing unsupported information."
+        },
+        {
+            "question": "What is the role of overlap in chunking?",
+            "expected_answer": "Overlap preserves context between neighboring chunks.",
+            "generated_answer": "Overlap preserves context between neighboring chunks, which can improve retrieval precision in a RAG system.",
+            "correct": true,
+            "reason": "The generated answer correctly states that overlap preserves context between neighboring chunks, which is the core idea of the question."
+        },
+        {
+            "question": "What is the offside rule in football?",
+            "expected_answer": "The offside rule prevents an attacking player from gaining an unfair advantage by being too far forward when the ball is played to them.",
+            "generated_answer": "The offside rule in football prevents an attacking player from gaining an unfair advantage by being too far forward when the ball is played to them. A player is in an offside position if they are nearer to the opponents' goal line than both the ball and the second-last opponent when the ball is played to them, subject to the specific conditions of the Laws of the Game.",
+            "correct": true,
+            "reason": "The generated answer accurately describes the offside rule in football, including the key conditions and exceptions."
+        },
+        {
+            "question": "When is a penalty kick awarded?",
+            "expected_answer": "A penalty kick is awarded when a player commits a direct free kick offence inside their own penalty area.",
+            "generated_answer": "A penalty kick is awarded when a player commits a direct free kick offence inside their own penalty area. The penalty kick is then taken from the penalty mark.",
+            "correct": true,
+            "reason": "The generated answer correctly states that a penalty kick is awarded for a direct free kick offence inside the penalty area and provides additional context about where the penalty kick is taken."
+        },
+        {
+            "question": "What is a red card in football?",
+            "expected_answer": "A red card sends a player off and means they cannot continue playing in that match.",
+            "generated_answer": "A red card in football sends a player off and means they cannot continue playing in that match.",
+            "correct": true,
+            "reason": "The generated answer accurately describes what a red card in football entails."
+        }
+    ]
+}
