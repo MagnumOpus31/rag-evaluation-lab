@@ -65,6 +65,52 @@
             "in_domain_acceptance_rate": 1.0
         }
     ],
+    "ood_evaluation": {
+        "summary": {
+            "total_ood_questions": 6,
+            "refused_questions": 6,
+            "answered_questions": 0,
+            "ood_refusal_rate": 1.0
+        },
+        "results": [
+            {
+                "question": "How does photosynthesis work?",
+                "answer": "I don't have enough information in the provided context.",
+                "refused": true,
+                "top_score": 0.20963653922080994
+            },
+            {
+                "question": "What causes earthquakes?",
+                "answer": "I don't have enough information in the provided context.",
+                "refused": true,
+                "top_score": 0.10044527798891068
+            },
+            {
+                "question": "How does the human digestive system work?",
+                "answer": "I don't have enough information in the provided context.",
+                "refused": true,
+                "top_score": 0.17105472087860107
+            },
+            {
+                "question": "How does a computer operating system manage memory?",
+                "answer": "I don't have enough information in the provided context.",
+                "refused": true,
+                "top_score": 0.2605910897254944
+            },
+            {
+                "question": "What is the process of photosynthesis in plants?",
+                "answer": "I don't have enough information in the provided context.",
+                "refused": true,
+                "top_score": 0.1903718113899231
+            },
+            {
+                "question": "How are earthquakes measured?",
+                "answer": "I don't have enough information in the provided context.",
+                "refused": true,
+                "top_score": 0.1799791306257248
+            }
+        ]
+    },
     "chunking_experiment": [
         {
             "chunk_size": 30,

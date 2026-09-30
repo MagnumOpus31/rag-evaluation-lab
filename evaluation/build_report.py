@@ -28,6 +28,10 @@ def main():
         "data/eval/top_k_results.json"
     )
 
+    ood_results = load_json(
+        "data/eval/ood_results.json"
+    )
+
     retrieval_results = retrieval_data[
         "retrieval_experiments"
     ]
@@ -163,6 +167,33 @@ def main():
         )
 
     print()
+    print("=" * 60)
+    print("OOD Evaluation")
+    print("=" * 60)
+
+    ood_summary = ood_results["summary"]
+
+    print(
+        f"Total OOD Questions: "
+        f"{ood_summary['total_ood_questions']}"
+    )
+
+    print(
+        f"Refused Questions: "
+        f"{ood_summary['refused_questions']}"
+    )
+
+    print(
+        f"Answered Questions: "
+        f"{ood_summary['answered_questions']}"
+    )
+
+    print(
+        f"OOD Refusal Rate: "
+        f"{ood_summary['ood_refusal_rate']:.3f}"
+    )
+
+    print()
     print("=" * 100)
     print("Chunk Size Experiment")
     print("=" * 100)
@@ -252,6 +283,7 @@ def main():
         "configuration": config,
         "results": report,
         "threshold_evaluation": threshold_results,
+        "ood_evaluation": ood_results,
         "chunking_experiment": chunking_results,
         "embedding_experiment": embedding_results,
         "top_k_experiment": top_k_results
