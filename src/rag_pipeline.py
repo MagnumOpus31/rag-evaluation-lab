@@ -1,4 +1,6 @@
+import os
 import time
+
 from src.ingestion import load_documents
 from src.chunking import chunk_text
 from src.retriever import Retriever
@@ -12,7 +14,7 @@ class RAGPipeline:
         overlap=10,
         score_threshold=0.4,
         embedding_model=None
-        ):
+    ):
         documents = load_documents()
 
         self.chunks = [
@@ -26,30 +28,41 @@ class RAGPipeline:
         ]
 
         self.retriever = Retriever(
-        self.chunks,
-        embedding_model=embedding_model
+            self.chunks,
+            embedding_model=embedding_model
         )
-        self.score_threshold = score_threshold
+
+        if os.getenv("DEPLOYMENT_MODE") == "lightweight":
+            self.score_threshold = 0.18
+        else:
+            self.score_threshold = score_threshold
 
     def answer(self, query, top_k=3):
-        total_start=time.perf_counter()
-        retrieval_start=time.perf_counter()
+        total_start = time.perf_counter()
+
+        retrieval_start = time.perf_counter()
+
         retrieved = self.retriever.retrieve(
             query,
             top_k=top_k
         )
-        retrieval_latency=time.perf_counter()-retrieval_start
 
-        if not retrieved or retrieved[0]["score"] < self.score_threshold:
+        retrieval_latency = time.perf_counter() - retrieval_start
+
+        if (
+            not retrieved
+            or retrieved[0]["score"] < self.score_threshold
+        ):
             total_latency = time.perf_counter() - total_start
+
             return {
                 "query": query,
                 "answer": "I don't have enough information in the provided context.",
                 "retrieved": retrieved,
                 "latency": {
-                "retrieval_seconds": retrieval_latency,
-                "generation_seconds": 0.0,
-                "total_seconds": total_latency
+                    "retrieval_seconds": retrieval_latency,
+                    "generation_seconds": 0.0,
+                    "total_seconds": total_latency
                 }
             }
 
@@ -58,13 +71,17 @@ class RAGPipeline:
             for result in retrieved
         )
 
-        generation_start=time.perf_counter()
+        generation_start = time.perf_counter()
+
         answer = generate_answer(
             query,
             context
         )
 
-        generation_latency=time.perf_counter()-generation_start
+        generation_latency = (
+            time.perf_counter() - generation_start
+        )
+
         total_latency = time.perf_counter() - total_start
 
         return {
@@ -75,5 +92,5 @@ class RAGPipeline:
                 "retrieval_seconds": retrieval_latency,
                 "generation_seconds": generation_latency,
                 "total_seconds": total_latency
-    }
-}
+            }
+        }
