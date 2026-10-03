@@ -1,6 +1,25 @@
-import ollama
+import os
 
-MODEL_NAME = "qwen2.5:3b"
+from ollama import Client
+
+
+LOCAL_MODEL_NAME = "qwen2.5:3b"
+CLOUD_MODEL_NAME = "gpt-oss:20b"
+
+OLLAMA_API_KEY = os.getenv("OLLAMA_API_KEY")
+
+
+if OLLAMA_API_KEY:
+    client = Client(
+        host="https://ollama.com",
+        headers={
+            "Authorization": f"Bearer {OLLAMA_API_KEY}"
+        }
+    )
+    MODEL_NAME = CLOUD_MODEL_NAME
+else:
+    client = Client()
+    MODEL_NAME = LOCAL_MODEL_NAME
 
 
 def generate_answer(query, context):
@@ -17,7 +36,7 @@ If the answer cannot be found in the context, say:
 
 Answer:"""
 
-    response = ollama.chat(
+    response = client.chat(
         model=MODEL_NAME,
         messages=[
             {
